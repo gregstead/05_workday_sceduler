@@ -7,14 +7,12 @@ var timeStamp = moment();
 // Attach it to the #currentDay element
 $('#currentDay').text(timeStamp.format('dddd MMMM Do'));
 
-var TIMES = function() {
+// Hard coded array to iterate through
+var TIMES = ['06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'];
 
-    return ['06','07','08','09','10','11','12','13','14','15','16','17','18','19','20'];
-};
+for (i = 0; i < TIMES.length; i++) {
 
-for (i=0 ; i < TIMES().length; i++) {
-
-    var TIMESindex = TIMES()[i];
+    var TIMESindex = TIMES[i];
     var bgColor = '';
 
     // create a time object for each hour
@@ -25,37 +23,55 @@ for (i=0 ; i < TIMES().length; i++) {
     // if it is now, bg-danger
     if (timeIndexObject.isSame(timeStamp, 'hour')) {
         bgColor = 'bg-danger';
-    } 
-    // if it is before now, bg-dark
-    else if (timeIndexObject.isBefore(timeStamp)){
+    }
+    // ... if it is before now, bg-dark
+    else if (timeIndexObject.isBefore(timeStamp)) {
         bgColor = 'bg-dark text-white-50';
     }
-    // otherwise, bg-success
+    // ... otherwise, bg-success
     else {
         bgColor = 'bg-success text-white'
     }
 
-
     // Make a new row div (bootstrap)
     var $row = $('<div>');
-    $row.attr('class','row height-75 mt-2');
+    $row.attr('class', 'row height-75 mt-2');
 
     //// Make 3 column divs (bootstrap)
     // Hour col
-    var $col1 =  $('<div>');
-    $col1.attr('class','col col-2' + " text-dark bg-light border-light border-top border-bottom");
+    var $col1 = $('<div>');
+    $col1.attr('class', 'col col-2' + " text-dark bg-light border-light border-top border-bottom");
     $col1.text(TIMESindex);
 
-    // Event col
-    var $col2 =  $('<div>');
-    $col2.attr('class','col col-8 ' + bgColor);
-    $col2.text('Hello')
+    // Event column
+    // create column
+    var $col2 = $('<div>');
+    // create input
+    var $input = $('<input>');
+    // Set style class elements for column
+    $col2.attr('class', 'col col-8 ' + bgColor);
+    // Initially hide text area
+    $input.attr('type', 'hidden');
+    // Append input to column and start click function...
+    $col2.append($input).on('click', function (event) {
+        // ... Set the input element as a jquery object
+        var $targetInput = $($(event.target).children()[0]);
+        // ... if input is hidden
+        if($targetInput.attr('type') == 'hidden'){
+            // ... show it 
+            $targetInput.attr('type','text')
+        } else {
+            // .. else hide it
+            $targetInput.attr('type', 'hidden');
+        };
+    });
+
 
     // Button col
-    var $col3 =  $('<div>');
-    $col3.attr('class','col col-2');
+    var $col3 = $('<div>');
+    $col3.attr('class', 'col col-2');
     var $addEventBtn = $('<button>')
-    $addEventBtn.attr('class','btn btn-info w-100 h-100').html('<i class="far fa-calendar-plus"></i>');
+    $addEventBtn.attr('class', 'btn btn-info w-100 h-100').html('<i class="far fa-calendar-plus"></i>');
     $col3.append($addEventBtn);
 
     // append columns to row
