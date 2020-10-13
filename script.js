@@ -15,12 +15,12 @@ for (i = 0; i < TIMES.length; i++) {
     var TIMESindex = TIMES[i];
     var bgColor = '';
 
-    // create a time object for each hour
+    // create a moment.js object for each hour
     var timeIndexObject = moment(timeStamp.format('YYYY-MM-DD') + ' ' + TIMESindex);
 
     //// Alternate background color
 
-    // if it is now, bg-danger
+    // if it is now, bg-danger (red)
     if (timeIndexObject.isSame(timeStamp, 'hour')) {
         bgColor = 'bg-danger';
     }
@@ -28,7 +28,7 @@ for (i = 0; i < TIMES.length; i++) {
     else if (timeIndexObject.isBefore(timeStamp)) {
         bgColor = 'bg-dark text-white-50';
     }
-    // ... otherwise, bg-success
+    // ... otherwise, bg-success (green)
     else {
         bgColor = 'bg-success text-white'
     }
@@ -38,7 +38,7 @@ for (i = 0; i < TIMES.length; i++) {
     $row.attr('class', 'row height-75 mt-2');
 
     //// Make 3 column divs (bootstrap)
-    // Hour col
+    // Hour column
     var $col1 = $('<div>');
     $col1.attr('class', 'col col-2' + " text-dark bg-light border-light border-top border-bottom");
     $col1.text(TIMESindex);
@@ -61,20 +61,29 @@ for (i = 0; i < TIMES.length; i++) {
             // ... show it 
             $targetInput.attr('type','text')
         } else {
-            // .. else hide it
+            // ... else hide it
             $targetInput.attr('type', 'hidden');
         };
     });
 
 
     // Button col
+    // Create column div with Bootstrap style classes
     var $col3 = $('<div>');
     $col3.attr('class', 'col col-2');
+    // Create button with Bootstrap style classes and Fontawesome icon
     var $addEventBtn = $('<button>')
-    $addEventBtn.attr('class', 'btn btn-info w-100 h-100').html('<i class="far fa-calendar-plus"></i>');
+    $addEventBtn.attr('class', 'btn btn-info w-100 h-100')
+        .html('<i class="far fa-calendar-plus"></i>')
+        .click(function(event) {
+            console.log($(':input'));
+        });
+
+
+    // Add button to column
     $col3.append($addEventBtn);
 
-    // append columns to row
+    // append button to row
     $row.append($col1, $col2, $col3);
 
     // append row to timeblockEl
