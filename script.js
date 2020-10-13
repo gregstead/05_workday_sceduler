@@ -18,7 +18,7 @@ for (i = 0; i < TIMES.length; i++) {
     // create a moment.js object for each hour
     var timeIndexObject = moment(timeStamp.format('YYYY-MM-DD') + ' ' + TIMESindex);
 
-    //// Alternate background color
+    // **** Alternate background color *****
 
     // if it is now, bg-danger (red)
     if (timeIndexObject.isSame(timeStamp, 'hour')) {
@@ -34,59 +34,30 @@ for (i = 0; i < TIMES.length; i++) {
     }
 
     // Make a new row div (bootstrap)
-    var $row = $('<div>');
-    $row.attr('class', 'row height-75 mt-2');
+    var $row = $('<div>').attr('class', 'row height-75 mt-1');
 
-    //// Make 3 column divs (bootstrap)
-    // Hour column
-    var $col1 = $('<div>');
-    $col1.attr('class', 'col col-2' + " text-dark bg-light border-light border-top border-bottom");
-    $col1.text(TIMESindex);
+    // Make an input group 
+    var $inputGroup= $('<div>').attr('class', 'input-group');
+    // Hour identifier
+    var $inputPrepend = $('<div>').attr('class', 'col col-2 text-dark bg-light border-dark border-top').text(timeIndexObject.format('h a'));
+    // Input field
+    var $inputText = $('<input>').attr('class', 'form-control h-100 ' + bgColor);
+    // Button
+    var $inputAppend = $('<div>').attr('class','input-group-append').append(
+            $('<button>').attr('class','btn btn-info').attr('type','submit').attr('id','button-addon2').html('<i class="far fa-calendar-plus"></i>')
+        );
 
-    // Event column
-    // create column
-    var $col2 = $('<div>');
-    // create input
-    var $input = $('<input>');
-    // Set style class elements for column
-    $col2.attr('class', 'col col-8 ' + bgColor);
-    // Initially hide text area
-    $input.attr('type', 'hidden');
-    // Append input to column and start click function...
-    $col2.append($input).on('click', function (event) {
-        // ... Set the input element as a jquery object
-        var $targetInput = $($(event.target).children()[0]);
-        // ... if input is hidden
-        if($targetInput.attr('type') == 'hidden'){
-            // ... show it 
-            $targetInput.attr('type','text')
-        } else {
-            // ... else hide it
-            $targetInput.attr('type', 'hidden');
-        };
+    $inputGroup.prepend($inputPrepend).append($inputText, $inputAppend).on('click', function (event) {
+        // If button is clicked, log the input value
+        if (event.target.matches('button')) {
+            console.log($($(event.target).parent().siblings()[1]).val());
+            // Push the value to local storage
+        } else if (event.target.matches('i')) {
+            console.log($($(event.target).parent().parent().siblings()[1]).val());
+        }
     });
 
-
-    // Button col
-    // Create column div with Bootstrap style classes
-    var $col3 = $('<div>');
-    $col3.attr('class', 'col col-2');
-    // Create button with Bootstrap style classes and Fontawesome icon
-    var $addEventBtn = $('<button>')
-    $addEventBtn.attr('class', 'btn btn-info w-100 h-100')
-        .html('<i class="far fa-calendar-plus"></i>')
-        .click(function(event) {
-            console.log($(':input'));
-        });
-
-
-    // Add button to column
-    $col3.append($addEventBtn);
-
-    // append button to row
-    $row.append($col1, $col2, $col3);
-
     // append row to timeblockEl
-    $('#timeblockEl').append($row);
+    $('#timeblockEl').append($row.append($inputGroup));
 
 }
