@@ -2,6 +2,7 @@
 
 ## Table of contents
 * [General info](#general-info)
+* [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Setup](#setup)
 
@@ -17,15 +18,20 @@ The time blocks are colored accordingly:
 
 This project was created as the fifth homework assignment for the part-time coding bootcamp at the University of Kansas.
 
+## Screenshots
+
+![alt text](./assets/screenshot1.png "Title")
+
+![alt text](./assets/screenshot2.png "Title")
 
 ## Technologies
 Project is created with:
 * HTML
 * CSS
 * JavaScript
-- Bootstrap
-- jQuery
-- Moment.js
+    - Bootstrap
+    - jQuery
+    - Moment.js
 	
 ## Setup
 To run this project, open the following URL in any modern web browser:
