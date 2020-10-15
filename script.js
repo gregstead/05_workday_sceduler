@@ -7,10 +7,12 @@ $('#currentDay').text(timeStamp.format('dddd MMMM Do'));
 
 // Local storage 
 var localStorageObj;
-
+// if there is a local storage object for today ...
 if (localStorage.getItem(timeStamp.format('YYYY-MM-d'))) {
+    // ... parse it and set it to a variable
     localStorageObj = JSON.parse(localStorage.getItem(timeStamp.format('YYYY-MM-d')));
 } else {
+    // ... else make it an empty object
     localStorageObj = {};
 }
 
@@ -22,7 +24,7 @@ $(document).on('click', function (event) {
         // Assign the text value of the hour column to a variable
         var hourText = $($(event.target).parent().siblings()[0]).text();
         // Assign the input value to a variable
-        var userInputText = $($(event.target).parent().siblings()[1]).val();;
+        var userInputText = $($(event.target).parent().siblings()[1]).val();
         // Store the input text in local storage object
         localStorageObj[[hourText]] = userInputText;
         // Stringify object and 
@@ -30,7 +32,14 @@ $(document).on('click', function (event) {
 
     } else if (event.target.matches('i')) {
         console.log("helloo");
-        // $($(event.target).parent().parent().siblings()[1]).val();
+        // Assign the text value of the hour column to a variable
+        var hourText = $($(event.target).parent().siblings()[0]).text();
+        // Assign the input value to a variable
+        var userInputText = $($(event.target).parent().parent().siblings()[1]).val();
+        // Store the input text in local storage object
+        localStorageObj[[hourText]] = userInputText;
+        // Stringify object and 
+        localStorage.setItem(timeStamp.format('YYYY-MM-d'), JSON.stringify(localStorageObj))
     };
 });
 
@@ -41,36 +50,41 @@ var TIMES = ['06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '
 for (i = 0; i < TIMES.length; i++) {
 
     var TIMESindex = TIMES[i];
-    var bgColor = '';
 
     // create a moment.js object for each hour
     var timeIndexObject = moment(timeStamp.format('YYYY-MM-DD') + ' ' + TIMESindex);
-
-    // **** Alternate background color *****
-
-    // if it is now, bg-danger (red)
+    
+    var bgColor = '';
+    // if it is now, color is red
     if (timeIndexObject.isSame(timeStamp, 'hour')) {
         bgColor = ' present';
     }
-    // ... if it is before now, bg-dark
+    // ... if it is before now, color is grey
     else if (timeIndexObject.isBefore(timeStamp)) {
         bgColor = ' past';
     }
-    // ... otherwise, bg-success (green)
+    // ... otherwise, color is green
     else {
         bgColor = ' future';
+    }
+
+    var inputPlaceholder = '';
+    // if there is a stored value for this hour in local storage, set that value to a variable
+    if (localStorageObj[timeIndexObject.format('h a')]) {
+        inputPlaceholder = localStorageObj[timeIndexObject.format('h a')];
     }
 
     // Make a new row div (bootstrap)
     var $row = $('<div>').attr('class', 'row time-block');
 
-    // Make an input group 
+
+    // Make an input group jQuery object
     var $inputGroup = $('<div>').attr('class', 'input-group');
     // Hour identifier
     var $inputPrepend = $('<div>').attr('class', 'col col-2 hour').text(timeIndexObject.format('h a'));
     // Input field
-    var $inputText = $('<textarea>').attr('class', 'form-control h-100' + bgColor);
-    // Button
+    var $inputText = $('<textarea>').attr('class', 'form-control h-100' + bgColor).text(inputPlaceholder);
+    // Save event button
     var $inputAppend = $('<div>').attr('class', 'input-group-append').append(
         $('<button>').attr('class', 'saveBtn').attr('type', 'submit').attr('id', 'button-addon2').html('<i class="far fa-calendar-plus"></i>')
     );
