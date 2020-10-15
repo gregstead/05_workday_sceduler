@@ -20,9 +20,9 @@ This project was created as the fifth homework assignment for the part-time codi
 
 ## Screenshots
 
-![alt text](./assets/screenshot1.png "Title")
+![Workday Scheduler screenshot 1](./assets/screenshot1.png "Workday Scheduler in action!")
 
-![alt text](./assets/screenshot2.png "Title")
+![Workday Scheduler screenshot 2](./assets/screenshot2.png "Workday Scheduler in action!")
 
 ## Technologies
 Project is created with:
